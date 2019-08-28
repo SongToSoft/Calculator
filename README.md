@@ -9,4 +9,4 @@ ruby Calculator.rb "(38+2*14-(21 / 7 +(23 - 1))*4 + (((11 * 14*100 - 1 - (3) * 1
 ```
 
 # TODO
-In current time dont work unary operators.
+In current time dont work unary operators and validation of expression.
