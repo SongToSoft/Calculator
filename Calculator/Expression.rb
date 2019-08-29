@@ -6,23 +6,27 @@ class Expression
         if (value != "")
             self.DeleteSpaces
             self.MakeLexemes
-            while (!self.Optimization)
+            if (@lexemes.length > 1)
+                while (!self.Optimization)
+                end
+                self.Validate()
+                self.CheckUnaryOperators
+                while (self.FindBrackets)
+                end
+                self.Degree
+                self.MultiplicatioAndDivision
+                self.PlusAndMinus
             end
-            self.Validate()
-            self.CheckUnaryOperators
-            while (self.FindBrackets)
-            end
-            self.Degree
-            self.MultiplicatioAndDivision
-            self.PlusAndMinus
         else
-            abort "Empty Expression"
+            abort "Incorrect Expression"
         end
     end
 
     def DeleteSpaces
         @value = @value.gsub(" ", "")
-        puts "#{@value}"
+        if (ARGV[1] == "-i")
+            puts "#{@value}"
+        end
     end
 
     def MakeLexemes
@@ -48,7 +52,9 @@ class Expression
         end
         @lexemes = @lexemes.reverse!
         @lexemes.delete("")
-        puts "#{@lexemes}"
+        if (ARGV[1] == "-i")
+            puts "#{@lexemes}"
+        end
     end
 
     def Optimization
@@ -95,7 +101,7 @@ class Expression
                     abort "Incorrect Opertarors"
                 end
             end
-            if ((@lexemes[i].to_i.to_s == @lexemes[i]) && ((@lexemes[i + 1] == ")") || (@lexemes[i + 1 ] == "(")))
+            if ((@lexemes[i].to_i.to_s == @lexemes[i]) && (@lexemes[i + 1 ] == "("))
                 abort "Incorrect Brackets after number"
             end
         end
@@ -130,26 +136,30 @@ class Expression
         if (newLexemes.length > 1)
             newLexemes.insert(0, @lexemes[@lexemes.length - 1])
         end
-        @lexemes = newLexemes.reverse! 
+        @lexemes = newLexemes.reverse!
     end
 
     def Degree
         isEnd = false
         while (!isEnd)
-            if (@lexemes.length == 1)
+            if (@lexemes.size == 1)
                 break
             end
             newLexemes = []
             for i in 0...(@lexemes.length - 2)
                 if (@lexemes[i + 1] == "^")
                     value = @lexemes[i].to_i ** @lexemes[i + 2].to_i
-                    puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                    if (ARGV[1] == "-i")
+                        puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                    end
                     newLexemes.insert(0, value)
                     for j in i + 3...(@lexemes.length)
                         newLexemes.insert(0, @lexemes[j])
                     end
                     @lexemes = newLexemes.reverse!
-                    puts "#{@lexemes}"
+                    if (ARGV[1] == "-i")
+                        puts "#{@lexemes}"
+                    end
                     break
                 else
                     newLexemes.insert(0, @lexemes[i])
@@ -171,24 +181,32 @@ class Expression
             for i in 0...(@lexemes.length - 2)
                 if (@lexemes[i + 1] == "*")
                     value = @lexemes[i].to_i * @lexemes[i + 2].to_i
-                    puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                    if (ARGV[1] == "-i")
+                        puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                    end
                     newLexemes.insert(0, value)
                     for j in i + 3...(@lexemes.length)
                         newLexemes.insert(0, @lexemes[j])
                     end
                     @lexemes = newLexemes.reverse!
-                    puts "#{@lexemes}"
+                    if (ARGV[1] == "-i")
+                        puts "#{@lexemes}"
+                    end
                     break
                 else
                     if (@lexemes[i + 1] == "/")
                         value = @lexemes[i].to_i / @lexemes[i + 2].to_i
-                        puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                        if (ARGV[1] == "-i")
+                            puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                        end
                         newLexemes.insert(0, value)
                         for j in i + 3...(@lexemes.length)
                             newLexemes.insert(0, @lexemes[j])
                         end
                         @lexemes = newLexemes.reverse!
-                        puts "#{@lexemes}"
+                        if (ARGV[1] == "-i")
+                            puts "#{@lexemes}"
+                        end
                         break
                     else
                        newLexemes.insert(0, @lexemes[i])
@@ -211,7 +229,9 @@ class Expression
             for i in 0...(@lexemes.length - 2)
                 if (@lexemes[i + 1] == "+")
                     value = @lexemes[i].to_i + @lexemes[i + 2].to_i
-                    puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                    if (ARGV[1] == "-i")
+                        puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                    end
                     newLexemes.insert(0, value)
                     for j in i + 3...(@lexemes.length)
                         newLexemes.insert(0, @lexemes[j])
@@ -226,7 +246,9 @@ class Expression
                             newLexemes.insert(0, @lexemes[j])
                         end
                         @lexemes = newLexemes.reverse!
-                        puts "#{@lexemes}"
+                        if (ARGV[1] == "-i")
+                            puts "#{@lexemes}"
+                        end
                         break
                     else
                        newLexemes.insert(0, @lexemes[i])
@@ -268,7 +290,9 @@ class Expression
 
         if (indexStart != indexFinish)
             newValue = self.GetPath(indexStart + 1, indexFinish).join
-            puts "Brackets values: #{newValue}"
+            if (ARGV[1] == "-i")
+                puts "Brackets values: #{newValue}"
+            end
             newExpression = Expression.new(newValue)
             self.ReplacePath(indexStart, indexFinish, newExpression.GetAnswer)
             return true
@@ -290,7 +314,6 @@ class Expression
 
     def ReplacePath(indexStart, indexFinish, value)
         newLexemes = []
-        #puts "#{indexStart} #{indexFinish}"
         for i in 0...@lexemes.length
             if (i == indexStart)
                 newLexemes.insert(0, value)
