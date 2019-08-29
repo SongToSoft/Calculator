@@ -20,6 +20,7 @@ class Expression
         else
             abort "Incorrect Expression"
         end
+        #self.ShowLexemes
     end
 
     def DeleteSpaces
@@ -34,9 +35,8 @@ class Expression
         @lexemes = []
         tmpValue = ''
         for i in 0...array.length
-            if ((array[i].to_i.to_s == array[i]))
+            if ((array[i].to_i.to_s == array[i]) || (array[i] == "."))
                 tmpValue += array[i]
-                state = 1
                 if (i == array.length - 1)
                     @lexemes.insert(0, tmpValue)
                     break
@@ -101,9 +101,15 @@ class Expression
                     abort "Incorrect Opertarors"
                 end
             end
-            if ((@lexemes[i].to_i.to_s == @lexemes[i]) && (@lexemes[i + 1 ] == "("))
+            if ((@lexemes[i].to_f.to_s == @lexemes[i]) && (@lexemes[i + 1 ] == "("))
                 abort "Incorrect Brackets after number"
             end
+        end
+        if ((@lexemes[@lexemes.length - 1] == "-") ||
+            (@lexemes[@lexemes.length - 1] == "+") ||
+            (@lexemes[@lexemes.length - 1] == "*") ||
+            (@lexemes[@lexemes.length - 1] == "/"))
+                abort "Incorrect Opertarors"
         end
     end
 
@@ -112,13 +118,13 @@ class Expression
         i = 0
         while (i < (@lexemes.length - 1))
             if ((@lexemes[i] == "+") || (@lexemes[i] == "-"))
-                if (@lexemes[i + 1].to_i.to_s == @lexemes[i + 1])
+                if ((@lexemes[i + 1].to_f.to_s == @lexemes[i + 1]) || (@lexemes[i + 1].to_i.to_s == @lexemes[i + 1]))
                     if ((i - 1) < 0)
                         newLexemes.insert(0, @lexemes[i] + @lexemes[i + 1])
                         i += 2
                         next
                     end
-                    if (@lexemes[i - 1].to_i.to_s != @lexemes[i - 1]) && (@lexemes[i - 1] != ")")
+                    if (@lexemes[i - 1].to_f.to_s != @lexemes[i - 1]) && (@lexemes[i - 1] != ")")
                         newLexemes.insert(0, @lexemes[i] + @lexemes[i + 1] )
                         i += 2
                         next
@@ -148,7 +154,7 @@ class Expression
             newLexemes = []
             for i in 0...(@lexemes.length - 2)
                 if (@lexemes[i + 1] == "^")
-                    value = @lexemes[i].to_i ** @lexemes[i + 2].to_i
+                    value = @lexemes[i].to_f ** @lexemes[i + 2].to_f
                     if (ARGV[1] == "-i")
                         puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
                     end
@@ -180,7 +186,7 @@ class Expression
             newLexemes = []
             for i in 0...(@lexemes.length - 2)
                 if (@lexemes[i + 1] == "*")
-                    value = @lexemes[i].to_i * @lexemes[i + 2].to_i
+                    value = @lexemes[i].to_f * @lexemes[i + 2].to_f
                     if (ARGV[1] == "-i")
                         puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
                     end
@@ -195,7 +201,7 @@ class Expression
                     break
                 else
                     if (@lexemes[i + 1] == "/")
-                        value = @lexemes[i].to_i / @lexemes[i + 2].to_i
+                        value = @lexemes[i].to_f / @lexemes[i + 2].to_f
                         if (ARGV[1] == "-i")
                             puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
                         end
@@ -228,7 +234,7 @@ class Expression
             newLexemes = []
             for i in 0...(@lexemes.length - 2)
                 if (@lexemes[i + 1] == "+")
-                    value = @lexemes[i].to_i + @lexemes[i + 2].to_i
+                    value = @lexemes[i].to_f + @lexemes[i + 2].to_f
                     if (ARGV[1] == "-i")
                         puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
                     end
@@ -240,7 +246,7 @@ class Expression
                     break
                 else
                     if (@lexemes[i + 1] == "-")
-                        value = @lexemes[i].to_i - @lexemes[i + 2].to_i
+                        value = @lexemes[i].to_f - @lexemes[i + 2].to_f
                         if (ARGV[1] == "-i")
                             puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
                         end
