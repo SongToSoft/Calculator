@@ -241,14 +241,14 @@ class Expression
                 else
                     if (@lexemes[i + 1] == "-")
                         value = @lexemes[i].to_i - @lexemes[i + 2].to_i
+                        if (ARGV[1] == "-i")
+                            puts "#{@lexemes[i]} #{@lexemes[i + 1]} #{@lexemes[i + 2]} = #{value}"
+                        end
                         newLexemes.insert(0, value)
                         for j in i + 3...(@lexemes.length)
                             newLexemes.insert(0, @lexemes[j])
                         end
                         @lexemes = newLexemes.reverse!
-                        if (ARGV[1] == "-i")
-                            puts "#{@lexemes}"
-                        end
                         break
                     else
                        newLexemes.insert(0, @lexemes[i])
