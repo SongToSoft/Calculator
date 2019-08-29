@@ -8,8 +8,9 @@ Calculator supports operations:
 # Run
 Go to directory and write smt like:
 ```
-ruby Calculator.rb "(38+2*14-(21 / 7 +(23 - 1))*4 + (((11 * 14*100 - 1 - (3) * 11))))^2"
-235070224
+ruby Calculator.rb "(38+2*14-(21 / 7 +(23 - 1))*(4) + (((11 * 14*100 - 1 - (3) * 11-3))))^(2)"
+234978241.0
+
 ```
 Use -i for show all operation:
 ```
