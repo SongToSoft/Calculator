@@ -20,7 +20,6 @@ class Expression
         else
             abort "Incorrect Expression"
         end
-        #self.ShowLexemes
     end
 
     def DeleteSpaces
@@ -124,7 +123,9 @@ class Expression
                         i += 2
                         next
                     end
-                    if (@lexemes[i - 1].to_f.to_s != @lexemes[i - 1]) && (@lexemes[i - 1] != ")")
+                    if (((@lexemes[i - 1].to_f.to_s != @lexemes[i - 1]) &&
+                         (@lexemes[i - 1].to_i.to_s != @lexemes[i - 1])) &&
+                         (@lexemes[i - 1] != ")"))
                         newLexemes.insert(0, @lexemes[i] + @lexemes[i + 1] )
                         i += 2
                         next
