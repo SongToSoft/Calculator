@@ -7,7 +7,7 @@ Go to directory and write smt like:
 ruby Calculator.rb "(38+2*14-(21 / 7 +(23 - 1))*4 + (((11 * 14*100 - 1 - (3) * 11))))^2"
 235070224
 ```
--i - used for show all operation
+Use -i for show all operation:
 ```
 ruby Calculator.rb "(3*(11)^2 - 3)" -i
 (3*(11)^2-3)
@@ -24,4 +24,9 @@ Brackets values: 11
 [363, "-", "3"]
 [360]
 360
+```
+Calculator works with floating point numbers:
+```
+ruby Calculator.rb "-4.123*(-1)/(-10*(-2.1)^(-2))"
+-1.818243
 ```
