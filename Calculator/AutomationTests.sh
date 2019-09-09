@@ -8,9 +8,9 @@ function StartTest
     ruby Calculator.rb "$2" > testfile
     if grep -q $3 "testfile";
     then
-        echo $1 "PASS"
+        echo -e $1 "\e[32mPASS\e[0m"
     else
-        echo $1 "FAIL"
+        echo -e $1 "\e[31mFAIL\e[0m"
     fi
     rm -rf testfile
 }
